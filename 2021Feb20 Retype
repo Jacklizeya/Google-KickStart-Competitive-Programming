@@ -2,6 +2,9 @@ const fs = require ("fs")
 const input = fs.readFileSync(0, "utf8").trim().split("\n")
 
 
+
+
+
 for (i=1;  i < input.length; i++ ) {
 
     array = input[i].split(" ")    
@@ -9,12 +12,10 @@ for (i=1;  i < input.length; i++ ) {
     let K = parseInt(array[1])
     let S = parseInt(array[2])
     
-    decision = ((2 * S - K <= 0)? [1, K+N]: [2, 2 *(K-S) + N])    
-    console.log(`Case #${i}: ${decision[1]}`)    
+    decision = (2 * S - K <= 0)? (K+N): (2 *(K-S) + N)   
+    console.log(`Case #${i}: ${decision}`)    
         
     }
-    
-    
     
     
     /*
