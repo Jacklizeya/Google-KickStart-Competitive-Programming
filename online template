@@ -1,0 +1,30 @@
+const fs = require("fs")
+const raw = fs.readFileSync(0, "utf8").trim().split("\n")
+
+for (i=1; i< raw.length; i++) {
+    line = raw[i].split(" ")
+//******************Donot change above */
+
+    L = BigInt(line[0])
+    R = BigInt(line[1])
+    
+    let boringcount = 0
+    for (j = L; j<=R; j++) {
+        let num = j;
+        jstring = num.toString()
+     
+        jfeature = checkboring(jstring)
+        if (jfeature === true) {boringcount ++}
+
+//*******************Donot change this line *******/       
+    }
+    console.log(`Case #${i}: ${boringcount}`)  
+}
+
+function checkboring(string) {
+    
+    let boring = true
+    for (s=0; s<string.length; s +=2) {   if(parseInt(string[s])%2 !== 1) {boring = false; return boring}  }
+    for (h=1; h<string.length; h +=2) {   if(parseInt(string[h])%2 !== 0) {boring = false; return boring}  }
+    return boring
+}
