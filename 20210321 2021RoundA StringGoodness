@@ -1,0 +1,25 @@
+const fs = require ("fs")
+const input = fs.readFileSync(0, "utf8").trim().split("\n")
+
+let casecount = 0
+let targetGoodness 
+let totalcase = parseInt(input[0])
+
+
+for (i=1;  i < input.length; i++ ) {
+    if (i%2 ===1) {let array = input[i].split(" "); 
+    casecount++; targetGoodness = parseInt(array[1]) }
+    //console.log(array)
+    
+
+    else {
+        let array = input[i].split("")
+        //console.log("other")
+        let currentGoodness = 0
+        for (j=0; j<= array.length/2-1; j++) {
+            if (array[j] !== array[array.length-1-j]) { currentGoodness++}
+        }
+        let change = Math.abs(targetGoodness - currentGoodness)
+        console.log(`Case #${casecount}: ${change}`) 
+    }        
+    }
