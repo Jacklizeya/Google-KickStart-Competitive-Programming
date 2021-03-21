@@ -1,0 +1,44 @@
+const fs = require("fs")
+const raw = fs.readFileSync("sample.txt", "utf8").trim().split("\n")
+
+let casenumber = 0
+let storage = {}
+
+for (i=1; i < raw.length; i++) {
+    line = raw[i].split(" ")
+    if (line.length === 1) {casenumber ++; storage[casenumber] = []}
+//******************Donot change above */
+    else {storage[casenumber].push(line)}
+//*******************Donot change this line *******/       
+    //console.log(`Case #${i}: ${boringcount}`)  
+}
+
+for (let casenumber in storage) {
+    let playerpositionlist = storage[casenumber]
+    let movement = minMove(playerpositionlist)
+    console.log(`Case #${casenumber}: ${movement}`)}
+
+
+// function is going to check plus store the result
+function minMove(list) {
+
+    let xposition = [] ;    for (i=0; i< list.length; i++) {        xposition.push(parseInt(list[i][0]))    }
+    let yposition = [] ;    for (i=0; i< list.length; i++) {        yposition.push(parseInt(list[i][1]))    }
+    yposition.sort((a,b)=>{return a-b})
+
+    let xsum = Math.floor(xposition.reduce((a,b)=>{return a+b})); 
+    let xaverage = xsum / (xposition.length);
+    let yaverage = Math.floor(yposition.reduce((a,b)=>{return a+b}) / (yposition.length))
+    let xfinalposition = [];     let gap = xaverage - Math.floor((list.length-1)/2); for (i= gap; i< list.length + gap; i++) { xfinalposition.push(i)}
+
+    let ymovement=[]
+    for (i=0; i< list.length; i++) { ymovement.push(Math.abs(yposition[i]-yaverage)) }
+
+    let xmovement=[]
+    for (i=0; i< list.length; i++) { xmovement.push(Math.abs(xposition[i]-xfinalposition[i])) }
+   
+    let totalmovement = xmovement.reduce((a,b)=>{return a+b}) + ymovement.reduce((a,b)=>{return a+b})
+    //console.log(xposition, yposition, xsum,  xaverage, xfinalposition, totalmovement)
+    return totalmovement
+}
+
