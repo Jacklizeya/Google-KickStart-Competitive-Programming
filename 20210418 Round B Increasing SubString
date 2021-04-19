@@ -1,0 +1,23 @@
+const fs = require("fs")
+
+
+//    in real google, change smaple.txt to 0 !
+const raw = fs.readFileSync("sample.txt", "utf8").trim().split("\n")
+
+for (i=2; i < raw.length; i= i+2) {
+    string = raw[i].split("")
+//******************Donot change above */
+    let output = [1]
+    let valley = 0
+
+    for(j= 1; j < string.length; j++){
+//      as long as it is not strictly increasing from previous element, it is a valley        
+        if (string[j-1] >= string[j] ) {valley = j}
+        
+        output.push(j+1-valley)
+    }
+
+//*******************Donot change this line *******/       
+
+    console.log(`Case #${i/2}: ${output.join(" ")}`)  
+}
