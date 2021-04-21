@@ -2,7 +2,7 @@ const fs = require("fs")
 
 
 //    in real google, change smaple.txt to 0 !
-const raw = fs.readFileSync(0, "utf8").trim().split("\n")
+const raw = fs.readFileSync("sample.txt", "utf8").trim().split("\n")
 
 for (i=2; i < raw.length; i= i+2) {
     array = raw[i].split(" ").map(element => parseInt(element))
@@ -17,20 +17,23 @@ for (i=2; i < raw.length; i= i+2) {
 
  // the first one and last one is easy to change, numbers in the middle is hard to decide.           
 
-            if (j < 2 ) { 
+            if (j < 3 ) { 
+                // follow the right trend at the beginning
                 let newArray = array.map(element => element)
                 newArray.splice(j, 1, 2 * array[j+1] - array[j+2]); 
                 caseContinuity = checkContinue(newArray)}
-            else if (j >= 2 && j < array.length - 2) { 
+            else if (j >= 3 && j < array.length - 3) { 
+                // follow left trend
                 leftlinearray = array.map(element => element)
-                leftlinearray.splice(j, 1, (array[j-1] + array[j+1])/2);
-
+                leftlinearray.splice(j, 1, 2 * array[j-1] - array[j-2]);
+                // follow right trend
                 rightlinearray = array.map(element => element)
-                rightlinearray.splice(j, 1, (array[j-1] + array[j+1])/2);
+                rightlinearray.splice(j, 1, 2 * array[j+1] - array[j+2]);
                 
                 caseContinuity = (checkContinue(leftlinearray) >= checkContinue (rightlinearray)? checkContinue(leftlinearray): checkContinue(rightlinearray))
-            }
+            } 
             else { 
+                // follow the left trend near the end
                 let newArray = array.map(element => element)
                 newArray.splice(j, 1, 2 * array[j-1] - array[j-2]); 
                 caseContinuity = checkContinue(newArray)}
@@ -49,13 +52,16 @@ function checkContinue(newArray)
     
     let currentgap = newArray[1] - newArray[0] 
     let currentContinuity = 2
-    let maxcontinuity = 2
+    let maxcontinuity = 3
     for (k = 2; k < newArray.length; k++) {
         if (newArray[k] - newArray[k-1] === currentgap) {currentContinuity ++} 
-        else { currentgap = newArray[k] - newArray[k-1] ;currentContinuity = 1}
+        else { currentgap = newArray[k] - newArray[k-1] ; currentContinuity = 1}
 
         if (currentContinuity > maxcontinuity) {maxcontinuity = currentContinuity}                 
     }
     
     return maxcontinuity
 }
+
+
+// I am trying to change every element, then check each case's longest continuity, N2 big O
