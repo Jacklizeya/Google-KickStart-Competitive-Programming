@@ -1,0 +1,25 @@
+function tandemBicycle(redShirtSpeeds, blueShirtSpeeds, fastest) {
+  // Write your code here.
+	redShirtSpeeds.sort((a,b)=>{return a-b})
+let ascendingRedShirtSpeeds = redShirtSpeeds.map(a => a)
+redShirtSpeeds.sort((a,b)=>{return b-a})
+let descendingRedShirtSpeeds = redShirtSpeeds.map(a => a)
+let ascendingBlueShirtSpeeds = blueShirtSpeeds.sort((a,b )=>{return a-b})
+let sum = 0
+
+for (i=0; i<redShirtSpeeds.length; i++)
+    {
+        if (fastest === true) {
+            sum += Math.max(descendingRedShirtSpeeds[i], ascendingBlueShirtSpeeds[i])
+        } else {
+            sum += Math.max(ascendingRedShirtSpeeds[i], ascendingBlueShirtSpeeds[i])
+        }
+    }
+
+return sum
+
+
+}
+
+// Do not edit the line below.
+exports.tandemBicycle = tandemBicycle;
