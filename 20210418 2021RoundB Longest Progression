@@ -4,6 +4,7 @@ const fs = require("fs")
 //    in real google, change smaple.txt to 0 !
 const raw = fs.readFileSync("sample.txt", "utf8").trim().split("\n")
 
+
 for (i=2; i < raw.length; i= i+2) {
     array = raw[i].split(" ").map(element => parseInt(element))
 //******************Donot change above */
@@ -17,20 +18,29 @@ for (i=2; i < raw.length; i= i+2) {
 
  // the first one and last one is easy to change, numbers in the middle is hard to decide.           
 
-            if (j < 3 ) { 
+            if (j < 2 ) { 
                 // follow the right trend at the beginning
                 let newArray = array.map(element => element)
                 newArray.splice(j, 1, 2 * array[j+1] - array[j+2]); 
                 caseContinuity = checkContinue(newArray)}
-            else if (j >= 3 && j < array.length - 3) { 
+            else if (j >= 2 && j < array.length - 2) { 
                 // follow left trend
-                leftlinearray = array.map(element => element)
-                leftlinearray.splice(j, 1, 2 * array[j-1] - array[j-2]);
-                // follow right trend
-                rightlinearray = array.map(element => element)
-                rightlinearray.splice(j, 1, 2 * array[j+1] - array[j+2]);
+                let leftGap = array[j-2] - array[j-1] ; let s = j-2;
+
+                while (array[s-1] - array[s] === leftGap && s >= 0) {s--}; leftLength = (j-1)-s + 1; 
+                let rightGap = array[j+1] - array[j+2] ; let m = j+1;
+                while (array[m] - array[m+1] === rightGap && m <= array.length -2 ) {m ++}; rightLength = m - (j+1) + 1 
                 
-                caseContinuity = (checkContinue(leftlinearray) >= checkContinue (rightlinearray)? checkContinue(leftlinearray): checkContinue(rightlinearray))
+                
+                if (leftGap === rightGap && 2 * array[j-1] - array[j-2] === 2 * array[j+1] - array[j+2]) {caseContinuity = leftLength + rightLength + 1} 
+                else {
+                    
+                    caseContinuity = Math.max(leftLength, rightLength) + 1
+                    
+                    if (array[j-1] - array[j+1] === 2 * leftGap || array[j-1] -  array[j+1] === 2 * rightGap ) {caseContinuity += 1; }
+
+                }
+               
             } 
             else { 
                 // follow the left trend near the end
@@ -47,6 +57,17 @@ for (i=2; i < raw.length; i= i+2) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
 function checkContinue(newArray)
 {
     
@@ -59,7 +80,6 @@ function checkContinue(newArray)
 
         if (currentContinuity > maxcontinuity) {maxcontinuity = currentContinuity}                 
     }
-    
     return maxcontinuity
 }
 
