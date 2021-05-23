@@ -1,0 +1,50 @@
+// My Solution
+
+const fs = require("fs")
+
+//    in real google, change smaple.txt to 0 !
+const raw = fs.readFileSync("sample.txt", "utf8").trim().split("\n")
+
+let letterString = "abcdefghijklmnopqrstuvwxyz"
+let letterArray = letterString.split("")
+
+// console.log("letterArray", letterArray, letterArray.length)
+
+for (i = 2; i < raw.length; i= i+2) {
+//  
+    let configArray = raw[i-1].split(" ")
+    let arrayLength = Number(configArray[0])
+    let flexiblePostionIndex = Math.floor((arrayLength-1)/2)
+    let letterOption = Number(configArray[1])
+    // console.log("letterOption", letterOption)
+    let array = raw[i].split("")
+    let sumCase = 1
+    
+//******************Donot change above */
+    // console.log("main input",arrayLength, letterOption, array)
+    // console.log(`flexiblePostionIndex is ${flexiblePostionIndex}`)
+    if (arrayLength === 1) {
+        // console.log("entering"); 
+        sumCase = letterArray.indexOf(array[0])} else {
+    
+        for (j = 0; j <= flexiblePostionIndex; j++) {        
+ // the first one and last one is easy to change, numbers in the middle is hard to decide.           
+            // console.log(`current position is ${j}, currentletter is ${array[j]}`)
+            let positionCase = Math.min(letterArray.indexOf(array[j]), letterArray.indexOf(array[arrayLength - 1 - j]))
+            let positionCaseOptions = Math.pow(letterOption, flexiblePostionIndex - j)
+            // console.log(`positionCase is ${positionCase}, letterOption is ${letterOption}, powrby ${flexiblePostionIndex - j}`)
+            sumCase = sumCase + positionCase * positionCaseOptions
+            }
+    }
+//*******************Donot change this line *******/       
+    console.log(`Case #${i/2}: ${sumCase}`)  
+}
+
+
+
+
+
+
+
+
+
