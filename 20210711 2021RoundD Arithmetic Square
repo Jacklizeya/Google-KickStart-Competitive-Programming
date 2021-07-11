@@ -1,0 +1,57 @@
+const fs = require("fs")
+
+
+//    in real google, change smaple.txt to 0 ! 
+//    if numbers, remember to convert by using parseInt, input is string, how to extrac tnumbers!
+//    do not repeat i, j, k index, interference
+const raw = fs.readFileSync(0, "utf8").trim().split("\n")
+
+
+
+for ( i = 1; i <= parseInt(raw[0]); i++) {
+    // console.log(3 * (i-1) + 1, 3 * (i-1) + 2, 3 * (i-1) + 3)
+    string = raw[3 * (i-1) + 1].trim() + " " + raw[3 * (i-1) + 2].trim() + " " + raw[3 * (i-1) + 3].trim()
+//******************Donot change above */
+    // console.log(string)
+    let InputNumberArray = string.split(" ").map(element => parseInt(element))
+    // console.log(InputNumberArray)
+
+    let possibilityArrayWithoutFilter = [(InputNumberArray[0] + InputNumberArray[7])/2, 
+                            (InputNumberArray[5] + InputNumberArray[2])/2, 
+                            (InputNumberArray[3] + InputNumberArray[4])/2, 
+                            (InputNumberArray[1] + InputNumberArray[6])/2, 
+                        ]
+    let possibilityArray = possibilityArrayWithoutFilter.filter(element => {return element % 1 === 0})
+
+    // console.log("possibilityArray", possibilityArray)
+
+    let object = {}
+    possibilityArray.forEach(element => {if (object[element]){object[element]++} else {object[element] = 1}})
+    // console.log("object", object)
+    let possible = Object.values(object)
+    possible.sort((a, b) => {return (b -a) })
+
+    let flexible = possible[0]? possible[0]: 0
+    // console.log("flexible", flexible)
+    // console.log("fixed", InputNumberArray, maxCombine(InputNumberArray))
+    let result = flexible + maxCombine(InputNumberArray)
+    // let maxProgressionArray = uniquePossibility.map(middle => maxCombine(InputNumberArray))
+    // // console.log("combination under different input", maxProgressionArray)
+    // let result = Math.max(...maxProgressionArray)
+    // //*******************Donot change this line *******/       
+
+    console.log(`Case #${i}: ${result}`)  
+}
+
+function maxCombine(array) {
+    let count = 0
+    if (array[0] + array[2] === 2 * array[1]) { count++}
+    if (array[5] + array[7] === 2 * array[6]) { count++}
+    if (array[0] + array[5] === 2 * array[3]) { count++}
+    if (array[2] + array[7] === 2 * array[4]) { count++}
+    // console.log("object", object)
+    // let counts = Object.values(object)
+    // let result = Math.max(...counts)
+    // console.log("when input is " , input, "count is", count)
+    return count
+}
